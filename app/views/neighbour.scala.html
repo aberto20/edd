@@ -1,0 +1,51 @@
+<div ng-controller="neighbourctr">
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <div ng-show="neighborpage" class="well">
+        <div ng-class="msg.class">{{msg.message}}</div>
+        <label>List of neighbour of child</label>
+        <br>
+
+        <table id="example" class="table">
+            <thead>
+                <tr >
+                    <td>Child names</td>
+                    <td>Neighbour names</td>
+                    <td >Done At</td>
+                    <td ></td>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr  ng-repeat="neighbour in neighbours" ng-include="getTemplate(neighbour)">
+                    <script type="text/ng-template" id="display">
+                    <td>{{neighbour.child.firstName}} {{neighbour.child.lastName}}</td>
+                    <td>{{neighbour.neighbNames}}</td>
+                    <td class="visible-lg visible-md">{{neighbour.doneAt| date:'dd/MM/yyyy'}}</td>
+                    <td >
+                        <a ng-click="neighbourById(neighbour)" href=""><span class="glyphicon glyphicon-edit"></span> </a>
+                    </td>
+                    </script>
+                    <script type="text/ng-template" id="edit">
+                        <td>{{neighbour.child.firstName}} {{neighbour.child.lastName}}</td>
+                        <td><input required="required" ng-model = "neighbour.neighbNames" class = "form-control"></td>
+                        <td class="visible-lg visible-md">{{neighbour.doneAt| date:'dd/MM/yyyy'}}</td>
+                        <td >
+                            <a  ng-click="updateNeighbour(neighbour)" href=""><span class="glyphicon glyphicon-ok"></span> </a>
+                        </td>
+                      </script>
+                </tr>
+
+            </tbody>
+        </table>
+
+
+    </div>
+
+
+</div>

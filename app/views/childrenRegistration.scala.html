@@ -1,0 +1,502 @@
+
+<div ng-controller="childrenCtr">
+    <div class="btn-group">
+        <button type="button" ng-click="showbtn()" class="btn btn-default">New child</button>
+        <button type="button" ng-click="childrenList()" class="btn btn-default">List children</button>
+    </div>
+    <br/>
+    <div  ng-show="childrenPage">
+        <div class = "col-lg-2">
+
+        </div>
+        <br/>
+        <div ng-show="message.message" class = "alert alert-success">{{message.message}}</div>
+        <div class="col-lg-12"><label><h3>List of children</h3></label></div>
+        <div  class="well ">
+            <input type="text" class="form-control" placeholder="Search child by names...." ng-model="search">
+            <br/>
+            page:
+            <select ng-model="number" >
+                <option selected value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+            </select>
+            <br/>
+            <br/>
+            <div ng-init="number=5" class="panel-group">
+                <div dir-paginate="c in childrens |filter:search |itemsPerPage:number"  class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 ng-if="c.child.deleteStatus==false" class="panel-title">
+                            {{c.child.firstName}} {{c.child.lastName}}
+                            <a class="pull-right" ng-hide="showpanel" ng-click = "showpanel = !showpanel"  data-toggle="collapse" href="" data-target="#collapse{{c.child.id}}"><span class="glyphicon glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a>
+                            <a class="pull-right" ng-show="showpanel" ng-click = "showpanel = !showpanel"  data-toggle="collapse" href="" data-target="#collapse{{c.child.id}}"><span class="glyphicon glyphicon glyphicon-chevron-up" aria-hidden="true"></span></a>
+
+                        </h4>
+                    </div>
+                    <div id="collapse{{c.child.id}}" class="panel-collapse collapse">
+                        <div class="panel-body">
+
+
+                            <br/>
+                            <center><label>IDENTIFICATION</label></center>
+                            <hr>
+
+                            <br/>
+
+                            <br/>
+
+                            <div ng-if="c.child.deleteStatus==false">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td style="width: 85%">
+                                        <div class="btn btn-group">
+                                        <a class="btn btn-default" href="#/childrenInfo/{{c.child.id}}/"><span class="fa fa-eye"></span> Details</a>
+                                        <a style="color: white" class="btn btn-info" ng-click="getchildByid(c.child.id)"   ><span style="color: white"  class="glyphicon glyphicon-edit  text-info"></span></a>
+                                        <a style="color: white" class="btn btn-danger"  ng-click="deleteChild(c.child)" href=""><span style="color: white" class="glyphicon glyphicon-remove text-danger "></span></a>
+                                        </div>
+                                    </td>
+                                    <td style="width: 15%"> <img ng-if="c.child.photo !='' ||c.child.photo !=null" style="width: 100px;height: 100px" data-ng-src="/assets/images/profile/{{c.child.photo}}" class="img-thumbnail pull-right img-responsive" alt="{{c.child.photo}}">
+                                        <img ng-if="ec.child.photo =='' ||c.child.photo ==null " style="width: 100px;height: 100px" data-ng-src="/assets/images/avatar.jpg" class="img-thumbnail pull-right img-responsive" alt="{{employee.photo}}"></td>
+
+                                </tr>
+
+                            </table>
+                            <table class = "table table-bordered">
+
+                                <tr>
+                                    <th >First name :</th><td >{{c.child.firstName}}</td>
+                                    <th >Last name:</th><td >{{c.child.lastName}}</td>
+
+                                </tr>
+                                <tr>
+                                    <th >Surname:</th><td >{{c.child.sureName}}</td>
+                                    <th >Date of birth:</th><td >{{c.child.dob | date:'dd/MM/yyyy'}}</td>
+
+                                </tr>
+                                <tr>
+                                    <th >Sex:</th><td >{{c.child.gender}}</td>
+                                    <th >Cellure:</th><td >{{c.child.cellure}}</td>
+
+                                </tr>
+                                <tr>
+                                    <th >Sector:</th><td >{{c.child.sector}}</td>
+                                    <th >District:</th><td >{{c.child.district}}</td>
+
+                                </tr>
+                                <tr>
+                                    <th >Province:</th><td >{{c.child.province}}</td>
+                                    <th >Weight:</th><td >{{c.child.weight}}kg</td>
+
+                                </tr>
+                                <tr>
+                                    <th >Height:</th><td >{{c.child.height}}cm</td>
+                                    <th >National id:</th><td ng-if="child.child.nationId==0" >No
+                                </td><td ng-if="child.child.nationId !=0" >{{c.child.nationId}}</td>
+                                </tr>
+                                <tr>
+                                    <th >Father name :</th><td >{{c.fatherNames}}</td>
+                                    <th >Status:</th><td >{{c.fatherStatus}}</td>
+
+                                </tr>
+                                <tr>
+                                    <th >Mather name:</th><td >{{c.matherNames}}</td>
+                                    <th >Status:</th><td >{{c.matherStatus}}</td>
+
+                                </tr>
+                                <tr>
+                                    <th >Nearest Parent:</th><td >{{c.nearestParent}}</td>
+                                    <th >others:</th><td >{{c.others}}</td>
+
+                                </tr>
+
+                            </table>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="/assets/partials/tables/dirPagination.tpl.html"></dir-pagination-controls>
+    </div>
+    <div ng-show="registrationPage" >
+        <div class = "col-lg-2">
+
+        </div>
+        <br/>
+        <div class = "col-lg-8">
+            <form  data-ng-submit="registerChild()" >
+                <div ng-switch="step">
+                    <div ng-switch-when="1">
+                        <div class = "panel panel-default">
+                            <div class = "panel-heading">
+                                <button style="color: blue" type="button" class="close" >Step 1</button>
+                                <h3 style = "padding:0px; margin:0px">Register new child</h3>
+                                <div class="{{msge.class}}">{{msge.message}}</div>
+
+                            </div>
+                            <div class="panel-body">
+                                <label>Child info</label>
+
+                                <hr>
+                                <div ng-show="msgphot.message" class = "{{msgphot.class}}">
+
+                                    <center><img ng-if="children['photo']!='Error'" style="width: 100px;height: 100px" data-ng-src="/assets/images/profile/{{children['photo']}}" class="img-thumbnail img-responsive" alt="{{children['photo']}}"></center>
+                                    <center><img ng-if="children['photo']=='Error'" style="width: 100px;height: 100px" data-ng-src="/assets/images/profile/avatar.jpg" class="img-thumbnail img-responsive" alt="{{children['photo']}}"></center>
+
+                                </div>
+                                <div class="col-md-12" style = "padding:15px">
+                                    <div class="col-md-6">
+                             First name
+                                        <input required="required" ng-model = "children['firstName']" placeholder = "first name" class = "form-control">
+                                        Last name
+                                        <input  ng-model = "children['lastName']" placeholder = "last name" class = "form-control">
+                                        Surname
+                                        <input required="required" ng-model = "children['sureName']" placeholder = "sureName name" class = "form-control">
+                                        Province
+
+                                        <input required="required" ng-model = "children['province']" placeholder = "province name" class = "form-control">
+                                        District
+                                        <input required="required" ng-model = "children['district']" placeholder = "District name" class = "form-control">
+                                        Sector
+                                        <input required="required" ng-model = "children['sector']" placeholder = "Sector name" class = "form-control">
+                                    </div>
+                                    <div class="col-md-6">
+                                Cellure
+                                        <input required="required" ng-model = "children['Cellure']" placeholder = "Cellure name" class = "form-control">
+                                        Date of birth
+                                        <input id="datepicker" required="required" ng-model = "children['dob']" placeholder = "Date of bith" class = "form-control">
+                                        Weight
+                                        <input type="number"  ng-model = "children['weight']" placeholder = "Enter child weight" class = "form-control">
+                                        Weight
+                                        <input type="number"  ng-model = "children['height']" placeholder = "Enter child height" class = "form-control">
+                                        NationId
+                                        <input type="number" maxlength="16" minlength="16"  ng-model = "children['nationId']" placeholder = "Enter child height" class = "form-control">
+                                        Photo
+                                        <input name="file" ng-model="children['photo']"   type="file" onchange="angular.element(this).scope().uploadFilephoto(this.files)" class = "form-control">
+
+                                    </div>
+                                    <div class="col-md-12">
+                                        <p>&nbsp;</p>
+                                        Gender:
+                                        <input class="radio radio-inline" type="radio" value="Male" ng-model = "children['gender']">Male
+                                        <input class="radio radio-inline" type="radio" value="Famale" ng-model = "children['gender']">Female
+                                        <p>&nbsp;</p>
+                                    </div>
+
+
+                                    <label>Parent info</label>
+                                    <hr>
+                                    <div class=" col-md-12">
+
+
+                                Father name
+                                        <input required="required" ng-model = "children['fatherNames']" placeholder = "Father name" class = "form-control">
+                                        Status
+                                        <select required="required" class="form-control" ng-model = "children['fatherStatus']">
+                                            <option value="Alive">Alive</option>
+                                            <option value="Dead">Dead</option>
+                                            <option value="Unknown">Unknown</option>
+                                            <option value="Guardian">Guardian</option>
+                                            <option value="Exit">Exit</option>
+                                        </select>
+                                        Nearest parent
+                                        <input  ng-model = "children['nearestParent']" placeholder = "Nearest parent" class = "form-control">
+
+                                        Mather name
+                                        <input required="required" ng-model = "children['matherNames']" placeholder = "Mather name" class = "form-control">
+                                        Status
+                                        <select required="required" class="form-control" ng-model = "children['matherStatus']">
+                                            <option value="Alive">Alive</option>
+                                            <option value="Dead">Dead</option>
+                                            <option value="Unknown">Unknown</option>
+                                            <option value="Guardian">Guardian</option>
+                                            <option value="Exit">Exit</option>
+                                        </select>
+                                        Others
+                                        <input  ng-model = "children['others']" placeholder = "Others" class = "form-control">
+
+                                    </div>
+                                    <hr>
+
+                                </div>
+
+                                <hr/>
+                                <div class = "col-lg-12 pull-left">
+                                    <input class="btn btn-default pull-right" ng-click="setStep(2)"  ng-disabled="btnSubmit || btndisable " value="Next>>" >
+                                    <input class="btn btn-default pull-right" ng-click="setStep(1)"   value="<<Previous" >
+
+
+
+                                </div>
+                                <br/>
+
+
+
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div ng-switch-when="2">
+                        <div class = "panel panel-default">
+                            <div class = "panel-heading">
+                                <button style="color: blue" type="button" class="close" >Step 2</button>
+                                <h3 style = "padding:0px; margin:0px">Siblings</h3>
+                                <div class="{{msge.class}}">{{msge.message}}</div>
+
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-12">
+                            Sibling name
+                                    <input class="form-control" aria-multiline="true" placeholder="Sibling name"  ng-model="children['siblingNames']">
+                                    <p>&nbsp;</p>
+                                    Gender:
+                                    <input type="radio" ng-model="children['siblinggender']" value="Male" >Male
+                                    <input type="radio" ng-model="children['siblinggender']" value="Female" >Female
+                                    <p>&nbsp;</p>
+                                    Any neighbours
+                                    <input type="text" ng-model="children['neighbNames']" placeholder="Neighbour name" class="form-control">
+
+                                </div>
+
+                                <div class = "col-md-12 pull-left">
+                                    <hr>
+                                    <input class="btn btn-default pull-right" ng-click="setStep(3)"  ng-disabled="btnSubmit || btndisable " value="Next>>" >
+                                    <input class="btn btn-default pull-right" ng-click="setStep(1)"   value="<<Previous" >
+
+
+
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+
+                    </div>
+
+
+                    <div ng-switch-when="3">
+                        <div class = "panel panel-default">
+                            <div class = "panel-heading">
+                                <button style="color: blue" type="button" class="close" >Step 3</button>
+                                <h3 style = "padding:0px; margin:0px">Child history</h3>
+                                <div class="{{msge.class}}">{{msge.message}}</div>
+
+                            </div>
+                            <div class="panel-body">
+                                1.<label>{{question.q1}}</label>
+                                <input type="text" ng-model="children['a1']" class="form-control" placeholder="Answer for question1">
+                                2.<label>{{question.q2}}</label>
+                                <input type="text" ng-model="children['a2']" class="form-control" placeholder="Answer for question2">
+                                3.<label>{{question.q3}}</label>
+                                <input type="text" ng-model="children['a3']" class="form-control" placeholder="Answer for question3">
+                                4.<label>{{question.q4}}</label>
+                                <select class="form-control" ng-model="children['a4']">
+                                    <option value="Departure-in agreement with the parent">Departure-in agreement with the parent</option>
+                                    <option value="Rejection by his theater">Rejection by his theater</option>
+                                    <option value="Rejected by his uncle">Rejected by his uncle</option>
+                                    <option value="Orphan">Orphan</option>
+                                    <option value="insecurity">insecurity</option>
+                                    <option value="Ifluenced by other children">Influenced by other children</option>
+                                    <option value="Rejected by her stepmother">Rejected by her stepmother</option>
+                                    <option value="Rejected by her aunt">Rejected by her aunt</option>
+                                    <option value="Seduction of the city">Seduction of the city</option>
+                                    <option value="famine">famine</option>
+                                    <option value="other reason">other reason</option>
+                                </select>
+                                <p ng-show="children['a4']=='other reason'">
+                                    <label>Other reason</label>
+                                    <input  placeholder="Other reason" ng-model="children['childHistoryother']" class="form-control">
+                                </p>
+                                <label>Location on the street</label>
+                                <input  placeholder="Location on the street" ng-model="children['streetLocation']" class="form-control">
+
+
+
+
+
+                                <hr>
+                                <div class = "col-lg-12 pull-left">
+                                    <input class="btn btn-default pull-right" ng-click="setStep(4)"  ng-disabled="btnSubmit || btndisable " value="Next>>" >
+                                    <input class="btn btn-default pull-right" ng-click="setStep(2)"   value="<<Previous" >
+
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div ng-switch-when="4">
+                        <div class = "panel panel-default">
+                            <div class = "panel-heading">
+                                <button style="color: blue" type="button" class="close" >Step 4</button>
+                                <h3 style = "padding:0px; margin:0px">Drugs usage</h3>
+                                <div class="{{msge.class}}">{{msge.message}}</div>
+
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-12">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                               <td>Type of drugs</td>
+                                               <td>Never</td>
+                                               <td>sometimes</td>
+                                               <td>Everytime</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="text" class="form-control" readonly="readonly" value="chancre" ></td>
+                                                <td><input type="radio" class="radio radio-button" value="Never" ng-model="children['usageState1']"></td>
+                                                <td><input type="radio" value="Sometimes" ng-model="children['usageState1']"></td>
+                                                <td><input type="radio" value="Everytime" ng-model="children['usageState1']"></td>
+                                            </tr>
+                                            <tr>
+                                                <td><input type="text" class="form-control" readonly="readonly" value="Mayirungi-Essance" ></td>
+                                                <td><input type="radio" value="Never" ng-model="children['usageState2']"></td>
+                                                <td><input type="radio" value="Sometimes" ng-model="children['usageState2']"></td>
+                                                <td><input type="radio" value="Everytime" ng-model="children['usageState2']"></td>
+                                            </tr>
+                                            <tr>
+                                                <td><input type="text" class="form-control" readonly="readonly" value="Colle"></td>
+                                                <td><input type="radio" value="Never" ng-model="children['usageState3']"></td>
+                                                <td><input type="radio" value="Sometimes" ng-model="children['usageState3']"></td>
+                                                <td><input type="radio" value="Everytime" ng-model="children['usageState3']"></td>
+                                            </tr>
+                                            <tr>
+                                                <td><input type="text" class="form-control" readonly="readonly" value="heroin"></td>
+                                                <td><input type="radio" value="Never" ng-model="children['usageState4']"></td>
+                                                <td><input type="radio" value="Sometimes" ng-model="children['usageState4']"></td>
+                                                <td><input type="radio" value="Everytime" ng-model="children['usageState4']"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Other:<input type="text" class="form-control" ng-model="children['other']"></td>
+                                                <td><input type="radio" value="Never" ng-model="children['usageState5']"></td>
+                                                <td><input type="radio" value="Sometimes" ng-model="children['usageState5']"></td>
+                                                <td><input type="radio" value="Everytime" ng-model="children['usageState5']"></td>
+                                            </tr>
+                                        </tbody>
+
+                                    </table>
+                                    Q1.Since when ?
+                                    <input type="text" class="form-control" ng-model="children['druga1']">
+                                    Q2.Under what circumstances ? ?
+                                    <input type="text" class="form-control" ng-model="children['druga2']">
+
+
+                                </div>
+
+                                <div class = "col-md-12 pull-left">
+                                    <hr>
+                                    <input class="btn btn-success pull-right" type="submit"  ng-disabled="btnSubmit || btndisable " value="Submit>>" >
+                                    <input class="btn btn-default pull-right" ng-click="setStep(3)"   value="<<Previous" >
+
+
+
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+
+                    </div>
+                    <Br><Br>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+
+    <div ng-show="editPage">
+        <div class = "col-lg-2">
+
+        </div>
+        <br/>
+        <div class = "col-lg-8">
+            <form  data-ng-submit="updateChild(childrens)" >
+                <div class = "panel panel-default">
+                    <div class = "panel-heading">
+                        <button type="button" class="close" ng-click="employeeList()">&times;</button>
+                        <h3 style = "padding:0px; margin:0px">Update your Child</h3>
+                        <div class="{{msge.class}}">{{msge.message}}</div>
+
+                    </div>
+                    <div class="panel-body">
+
+                    <div class="col-md-12" style = "padding:15px">
+                        <div class="col-md-6">
+                             First name
+                            <input required="required" ng-model = "childrens.firstName" class = "form-control">
+                            Last name
+                            <input  ng-model = "childrens.lastName"  class = "form-control">
+                            Surname
+                            <input required="required" ng-model = "childrens.sureName" class = "form-control">
+                            Province
+
+                            <input required="required" ng-model = "childrens.province"  class = "form-control">
+                            District
+                            <input required="required" ng-model = "childrens.district" class = "form-control">
+                            Sector
+                            <input required="required" ng-model = "childrens.sector" class = "form-control">
+                        </div>
+                        <div class="col-md-6">
+                                Cellure
+                            <input required="required" ng-model = "childrens.cellure" class = "form-control">
+                            Date of birth
+                            <input id="datepicker" type="text"  required="required" ng-model = "dob"   class = "form-control">
+                            Weight
+                            <input type="number"  ng-model = "childrens.weight" class = "form-control">
+                            Weight
+                            <input type="number"  ng-model = "childrens.height" class = "form-control">
+                            NationId
+                            <input type="text" ng-model = "childrens.nationId" class = "form-control">
+                            Photo
+                            <input name="file" ng-model="childrens.photo"   type="file" onchange="angular.element(this).scope().uploadFilephoto(this.files)" class = "form-control">
+
+                        </div>
+                        <div class="col-md-12">
+                            <p>&nbsp;</p>
+                            Gender:
+                            <input class="radio radio-inline" type="radio" value="Male" ng-model = "childrens.gender">Male
+                            <input class="radio radio-inline" type="radio" value="Famale" ng-model = "childrens.gender">Female
+                            <p>&nbsp;</p>
+                        </div>
+
+                        <hr>
+                        <div style="color: maroon" ng-show="status">{{status.message}}</div>
+                        <div class = "pull-right">
+                            <input class="btn btn-success pull-right" id="hideMode" ng-disabled="btnSubmit" value="Submit" type="submit">
+                            <input class="btn btn-default pull-right" ng-click="childrenList()" value="Cancel" type="button">
+
+
+                        </div>
+                    </div>
+                    </div>
+
+                </div>
+
+                <Br><Br>
+
+
+            </form>
+        </div>
+
+
+    </div>
+
+</div>

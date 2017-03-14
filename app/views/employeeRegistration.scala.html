@@ -1,0 +1,294 @@
+
+<div ng-controller="employeeRegisterCtr">
+    <div class="btn-group">
+        <button type="button" ng-click="showbtn()" class="btn btn-default">New employee</button>
+        <button type="button" ng-click="employeeList()" class="btn btn-default">List employee</button>
+    </div>
+    <br/>
+    <div ng-show="registrationPage" >
+        <div class = "col-lg-2">
+
+      </div>
+        <br/>
+        <div class = "col-lg-8">
+            <form  data-ng-submit="registerEmployee()" >
+                <div class = "panel panel-default">
+                    <div class = "panel-heading">
+                        <button type="button" class="close" ng-click="employeeList()">&times;</button>
+                        <h3 style = "padding:0px; margin:0px">Register your employee</h3>
+                        <div class="{{msge.class}}">{{msge.message}}</div>
+
+                    </div>
+
+                    <div style = "padding:15px">
+
+                        <label>
+                          Employee name
+                        </label>
+
+                        <input required="required" ng-model = "employee['names']" placeholder = "Employee name" class = "form-control">
+                        <label>Title</label>
+                        <select class="form-control" ng-model="employee['title']">
+                            <option value="Social">Social</option>
+                            <option value="Store keep">Store keep</option>
+                            <option value="Nurse">Nurse</option>
+                            <option value="Teacher">Teacher</option>
+                            <option value="Project manager">Project manager</option>
+                        </select>
+                        <label>
+                          Address
+                        </label>
+
+                        <textarea required="required" ng-model = "employee['address']" placeholder = "Employee address" class = "form-control"></textarea>
+
+                        <br>
+                        Phone number
+                        <input  required="required" ng-model = "employee['phone']" ng-change="usernameExist(employee['phone'])"   placeholder = "Phone number" class = "form-control">
+                        <div style="color: maroon" ng-show="status">{{status.message}}</div>
+                        <hr>
+
+                        <label>
+                          Login info
+                        </label>
+                        <br/>
+                        Username
+                        <input required ng-model="employee['userName']" placeholder="Enter username" class="form-control">
+                        <hr>
+                        <label>
+                          Upload documents
+                        </label>
+
+                        <br>
+                        Photo
+
+                        <input name="file" ng-model="employee['photo']"   type="file" onchange="angular.element(this).scope().uploadFilephoto(this.files)" class = "form-control">
+                        <div class = "{{msgphot.class}}">
+
+                          {{msgphot.message}}
+
+                        </div>
+
+
+                        CV
+                        <input name="file"  type="file" ng-model="employee['documentCv']"  onchange="angular.element(this).scope().uploadFileCv(this.files)" class = "form-control">
+                        <div class = "{{msgcv.class}}">
+
+                          {{msgcv.message}}
+
+                        </div>
+
+                        Certificate
+                        <input name="file"  ng-model="employee['documentCertificate']"    type="file" onchange="angular.element(this).scope().uploadFileCertificate(this.files)"class = "form-control">
+                        <div class = "{{msgCert.class}}">
+
+                          {{msgCert.message}}
+
+                        </div>
+
+
+                        <hr>
+
+                        <div class = "pull-right">
+                            <input class="btn btn-success pull-right" id="hideMode" ng-disabled="btnSubmit || btndisable " value="Submit" type="submit">
+                            <input class="btn btn-default pull-right" ng-click="employeeList()" value="Cancel" type="button">
+
+
+                        </div>
+                        <br/>
+
+
+
+
+
+                    </div>
+
+                </div>
+
+                <Br><Br>
+
+
+            </form>
+        </div>
+
+    </div>
+
+
+    <div ng-show="editPage">
+        <div class = "col-lg-2">
+
+        </div>
+        <br/>
+        <div class = "col-lg-8">
+            <form  data-ng-submit="updateEmployee(employee)" >
+                <div class = "panel panel-default">
+                    <div class = "panel-heading">
+                        <button type="button" class="close" ng-click="employeeList()">&times;</button>
+                        <h3 style = "padding:0px; margin:0px">Update your employee</h3>
+                        <div class="{{msge.class}}">{{msge.message}}</div>
+
+                    </div>
+
+                    <div style = "padding:15px">
+
+                        <label>
+                            Employee name
+                        </label>
+
+                        <input required="required" ng-model = "employee.names" class = "form-control">
+                        <label>Title</label>
+                        <select  class="form-control" ng-model="employee.title">
+                            <option selected value="{{employee.title}}">{{employee.title}}</option>
+                            <option value="Social">Social</option>
+                            <option value="StoreKeep">Store keep</option>
+                            <option value="Nurse">Nurse</option>
+                            <option value="Teacher">Teacher</option>
+                            <option value="ProjectManager">Project manager</option>
+                        </select>
+                        <label>
+                            Address
+                        </label>
+
+                        <textarea required="required" ng-model = "employee.address"  class = "form-control"></textarea>
+
+                        <br>
+                        Phone number
+                        <input  required="required" ng-model = "employee.phone"  class = "form-control">
+
+                        <hr>
+
+                        <label>
+                            Login info
+                        </label>
+                        <br/>
+                        Username
+                        <input required ng-model="employee.systemUser.userName"  class="form-control">
+                        <hr>
+
+                        <div class = "pull-right">
+                            <input class="btn btn-success pull-right"  ng-disabled="btnSubmit " value="Submit" type="submit">
+                            <input class="btn btn-default pull-right" ng-click="employeeList()" value="Cancel" type="button">
+
+
+                        </div>
+                        <br/>
+
+
+
+
+
+                    </div>
+
+                </div>
+
+                <Br><Br>
+
+
+            </form>
+        </div>
+
+
+    </div>
+    <div  ng-show="employeePage">
+        <div class = "col-lg-2">
+
+        </div>
+        <br/>
+        <div ng-show="message.message" class = "alert alert-success">{{message.message}}</div>
+        <div class="col-lg-12"><label><h3>List of employee</h3></label></div>
+        <div  class="well ">
+            <input type="text" class="form-control" placeholder="Search employee by names...." ng-model="search">
+            <br/>
+            page:
+            <select ng-model="number" >
+                <option selected value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+            </select>
+            <br/>
+            <br/>
+            <div ng-init="number=10" class="panel-group">
+                <div dir-paginate="employee in employees|filter:search|itemsPerPage:number"  class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                             {{employee.names}}
+                            <a class="pull-right" ng-hide="showpanel" ng-click = "showpanel = !showpanel"  data-toggle="collapse" href="" data-target="#collapse{{employee.id}}"><span class="glyphicon glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a>
+                            <a class="pull-right" ng-show="showpanel" ng-click = "showpanel = !showpanel"  data-toggle="collapse" href="" data-target="#collapse{{employee.id}}"><span class="glyphicon glyphicon glyphicon-chevron-up" aria-hidden="true"></span></a>
+
+                        </h4>
+                    </div>
+                    <div id="collapse{{employee.id}}" class="panel-collapse collapse">
+                        <div class="panel-body">
+
+                            <a style="float: right;color: white" class="btn btn-info"  ng-click="getEmployeeByid(employee.id)" href=""><span style="color: white"  class="glyphicon glyphicon-edit  text-info"></span></a>
+
+                            <a style="float:  right;color: white" class="btn btn-danger"  ng-if="employee.active==true" ng-click="deleteEmployee(employee)" href=""><span style="color: white" class="glyphicon glyphicon-remove text-danger "></span></a>
+                            <a style="float: right;color: white" class="btn btn-success"  ng-if="employee.active==false" ng-click="activateEmployee(employee)" href=""><span style="color: white" class="fa fa-thumbs-up  text-success"></span></a>
+
+
+                            <div ng-if="employee.photo !=null"><img style="width: 100px;height: 100px" data-ng-src="/assets/images/profile/{{employee.photo}}" class="img-thumbnail img-responsive" alt="{{employee.photo}}"></div>
+                            <div ng-if="employee.photo ==null " ><img style="width: 100px;height: 100px" data-ng-src="/assets/images/avatar.jpg" class="img-thumbnail img-responsive" alt="{{employee.photo}}"></div>
+
+                            <table class = "table">
+                                <tr>
+                                    <th style = "width:200px">Title: </th><td>{{employee.title}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Address: </th><td>{{employee.address}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Phone number: </th><td>{{employee.phone}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Cv: </th><td>
+                                    <a target="_blank" ng-if="employee.documentCv !=null ||employee.documentCv!=''" href="/assets/documents/{{employee.documentCv}}" {{employee.documentCertificate}}>{{employee.documentCv}}</a>
+                                    <label ng-if="employee.documentCv ==null ||employee.documentCv==''">Not available</label>
+                                </td>
+                                </tr>
+                                <tr>
+                                    <th>Certificate: </th><td>
+                                    <a target="_blank" ng-if="employee.documentCertificate !=null ||employee.documentCertificate!='' " href="/assets/documents/{{employee.documentCertificate}}" class="link btn-link">{{employee.documentCertificate}} </a>
+                                    <label ng-if="employee.documentCertificate ==null ||employee.documentCertificate=='' ">Not available</label>
+                                </td>
+                                </tr>
+                                <tr>
+                                    <th>Actived: </th>
+                                    <td><span ng-if="employee.active==true" class="label label-info badge">Yes</span>
+                                        <span ng-if="employee.active==false" class="label label-primary badge">No</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th></th><td></td>
+                                </tr>
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="/assets/partials/tables/dirPagination.tpl.html"></dir-pagination-controls>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    jQuery(function ($) {
+        $('.panel-heading span.clickable').on("click", function (e) {
+            if ($(this).hasClass('panel-collapsed')) {
+                // expand the panel
+                $(this).parents('.panel').find('.panel-body').slideDown();
+                $(this).removeClass('panel-collapsed');
+                $(this).find('i').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+            }
+            else {
+                // collapse the panel
+                $(this).parents('.panel').find('.panel-body').slideUp();
+                $(this).addClass('panel-collapsed');
+                $(this).find('i').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+            }
+        });
+    });
+</script>

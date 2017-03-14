@@ -1,0 +1,101 @@
+<div ng-controller="clinicctr">
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <div class="nav nav-tab">
+        <a class="btn btn-default" ng-click="newstatiment=!newstatiment">New consultation</a>
+    </div>
+    <div class="col-md-6" style="float:center" ng-show="newstatiment">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                New consultation
+            </div>
+            <div class="panel-body">
+                <form data-ng-submit="saveConsulutation()">
+                    Child
+                    <select ng-init="cons['child']=0"  class="form-control" ng-change="getchildByid(cons['child'])"  ng-model="cons['child']">
+                        <option  value = "0" label = "Please Select Child"></option>
+                        <option ng-repeat="c in childrenss"   value="{{c.child.id}}">{{c.child.firstName}} {{c.child.lastName}}</option>
+                    </select><br/>
+                    <div ng-show="cons['child']!=0">
+
+                        <center ng-if="childrens.photo!=null"><img  style="width: 70px;height: 70px" src="/assets/images/profile/{{childrens.photo}}" class="img-circle img-responsive" ></center>
+                        <center ng-if="childrens.photo ==null"><img  style="width: 70x;height: 70px" src="/assets/images/profile/avatar.jpg" class="img-circle img-responsive" ></center>
+                        <br>
+                        Date of birth
+                        <input  type="text" readonly class="form-control"  ng-model="childrens.dob">
+                        Province
+                        <input  type="text" readonly class="form-control"  ng-model="childrens.province"> <br>
+                        District
+                        <input  type="text" readonly class="form-control"  ng-model="childrens.district"> <br>
+                        Sector
+                        <input  type="text" readonly class="form-control"  ng-model="childrens.sector"> <br>
+                        Cellure
+                        <input  type="text" readonly class="form-control"  ng-model="childrens.cellure"> <br>
+                        Gender
+                        <input  type="text" readonly class="form-control"  ng-model="childrens.gender"> <br>
+                    </div>
+                    Weight(kg)
+                    <input  type="number" required class="form-control" ng-required ng-model="cons['weight']"> <br>
+                    Complains
+                    <textarea  type="text" class="form-control" required ng-model="cons['complains']"></textarea> <br>
+                    <button type="submit" ng-disabled="btnSubmit"  class="btn btn-success pull-right">{{btnStatus}}</button>
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 well" ng-show="clinicpage" >
+        <div ng-class="msg.class">{{message.message}}</div>
+        <label>List of all consultation</label>
+        <br>
+
+        <table ng-init="loadConsulutation()" class="table">
+            <thead>
+            <tr >
+                <td>Child names</td>
+                <td>Weight</td>
+                <td>Complains</td>
+                <td >Done At</td>
+                <td ></td>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr  ng-repeat="cons in consultations" ng-include="getTemplate(cons)">
+                <script type="text/ng-template" id="display">
+                    <td>{{cons.child.firstName}} {{cons.child.lastName}}</td>
+                    <td>{{cons.weight}}Kg</td>
+                    <td>{{cons.complains}}</td>
+                    <td >{{cons.doneAt| date:'dd/MM/yyyy'}}</td>
+                    <td >
+                        <a ng-click="editConsult(cons)" href=""><span class="glyphicon glyphicon-edit"></span> </a>
+                    </td>
+                </script>
+                <script type="text/ng-template" id="edit">
+                    <td>{{cons.child.firstName}} {{cons.child.lastName}}</td>
+                    <td><input required="required" ng-model = "cons.weight" class = "form-control"></td>
+                    <td><input required="required" ng-model = "cons.complains" class = "form-control">
+                        <input type="hidden" value="{{cons.child.id}}"  ng-model = "cons.child" class = "form-control">
+                    </td>
+                    <td class="visible-lg visible-md">{{cons.doneAt| date:'dd/MM/yyyy'}}</td>
+                    <td >
+                        <a  ng-click="updateConsult(cons)" href=""><span class="glyphicon glyphicon-ok"></span> </a>
+                    </td>
+                </script>
+            </tr>
+
+            </tbody>
+        </table>
+
+
+    </div>
+
+
+
+</div>

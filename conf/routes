@@ -1,0 +1,44 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                                    controllers.Application.index()
+GET     /logout/                             controllers.Application.logout()
+GET     /dashbord/                           controllers.Application.dashbord()
+GET     /allEmployee/                        controllers.Application.allEmployee()
+GET     /usernameExist/:phone                controllers.Application.usernameExist(phone : String)
+GET     /EmployeeById/:id                    controllers.Application.EmployeeById(id : Long)
+GET     /allChildren/                        controllers.Application.allChildren()
+GET     /allConsultation/                    controllers.Application.allConsultation()
+GET     /listConsultation/                    controllers.Application.listConsultation()
+GET     /childById/:id                       controllers.Application.childById(id:Long)
+GET     /updateConsult/:id                   controllers.Application.updateConsult(id:Long)
+GET     /childInfo/:id                       controllers.Application.childInfo(id:Long)
+GET     /newChildRegistration/               controllers.Application.newChildRegistration()
+GET     /allParents/                         controllers.Application.allParents()
+GET     /childStatistic/                     controllers.Application.childStatistic()
+GET     /viewEmployee/                       controllers.Application.viewEmployee()
+GET     /allNeighbours/                      controllers.Application.allNeighbours()
+GET     /NeighboursLoad/                     controllers.Application.NeighboursLoad()
+GET     /parentById/:id                      controllers.Application.parentById(id:Long)
+GET     /neighbourById/:id                   controllers.Application.neighbourById(id:Long)
+
+
+
+POST    /signin/                             controllers.Application.signin()
+POST    /uploadImage/                        controllers.Application.uploadImage()
+POST    /uploadDocument/                     controllers.Application.uploadDocument()
+POST    /employeeRegistration/               controllers.Application.employeeRegistration()
+POST    /saveConsult/                        controllers.Application.saveConsult()
+POST    /employeeUpdate/:id                  controllers.Application.employeeUpdate(id:Long)
+POST    /employeeDelete/:id                  controllers.Application.employeeDelete(id:Long)
+POST    /employeeActivate/:id                controllers.Application.employeeActivate(id:Long)
+POST    /childUpdate/:id                     controllers.Application.childUpdate(id:Long)
+POST    /childRegistration2/                 controllers.Application.childRegistration2()
+POST    /parentById/:id                      controllers.Application.UpdateparentById(id:Long)
+POST    /UpdateneighbourById/:id             controllers.Application.UpdateneighbourById(id:Long)
+POST    /childDelete/:id                     controllers.Application.childDelete(id:Long)
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)

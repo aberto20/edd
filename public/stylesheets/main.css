@@ -1,0 +1,104 @@
+#below .navbar-header {
+        float: none;
+    }
+#below .navbar-toggle {
+        display: block;
+    }
+#below .navbar-collapse {
+        border-top: 1px solid transparent;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+#below .navbar-collapse.collapse {
+        display: none!important;
+    }
+#below .navbar-nav {
+        float: none!important;
+        margin: 7.5px -15px;
+    }
+#below .navbar-nav>li {
+        float: none;
+    }
+#below .navbar-nav>li>a {
+        padding-top: 10px;
+        padding-bottom: 10px;
+}
+
+#below .navbar-collapse.collapse.in {
+    display: block!important;
+}
+
+
+
+
+
+
+
+
+    /* Styles for the card*/
+    .card{
+
+
+
+
+    }
+
+    /* Stack both divs and hide their backs */
+    .card .front, .card .back{
+
+
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -o-backface-visibility: hidden;
+    backface-visibility: hidden;
+
+    /* Apply some transitions so we see the element flip */
+    transition: transform 0.3s linear 0s;
+    -webkit-transition: -webkit-transform 0.3s linear 0s;
+
+    /* Assign a perspective, try this value */
+    transform: perspective(600px);
+    -webkit-transform: perspective(600px);
+
+    width: 100%;
+    height: 100%;
+    }
+
+    .back{
+
+    color:white;
+    font-weight:bold;
+    position:absolute;
+    margin-top:-200px;
+
+    }
+
+    /* The .back element should be rotated at first, facing his back, hidden*/
+    .card .back{
+
+    transform: rotateY(180deg);
+    -webkit-transform: rotateY(180deg);
+    background: #27ae60;
+    text-align: center;
+    }
+    .card .front{
+        color:white;
+        font-weight:bold;
+        color:white; text-shadow: 2px 2px #000000;
+    }
+
+    /* The .front card needs to rotate when we hover, 180 degrees will do the trick*/
+    .card:hover .front{
+    transform: rotateY(180deg);
+    -webkit-transform: rotateY(180deg);
+    }
+
+    /* The .back card has to rotate to 0 degrees and be visible*/
+    .card:hover .back{
+    transform: rotateY(0);
+    -webkit-transform: rotateY(0);
+    }
+
+
+
+
+

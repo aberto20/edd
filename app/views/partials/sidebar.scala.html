@@ -1,0 +1,45 @@
+@(employee: Employee)
+<div id="sidebar">
+    <br/>
+    <br/>
+    <div style="text-align: center">
+        @if(employee.photo!=null || employee.photo!=""){
+            <center><img  style="width: 100px;height: 100px" src="/assets/images/profile/@employee.photo" class="img-circle img-responsive" ></center>        }
+        @if(employee.photo==null || employee.photo==""){
+            <center><img  style="width: 100px;height: 100px" src="/assets/images/profile/avatar.jpg" class="img-circle img-responsive" ></center>
+        }
+        <h4>@employee.title</h4><i style="color: green;" class="label control-label ">Online</i>
+    </div>
+    <br/>
+
+    <div ng-controller="navbarctr" class="btn-group-vertical nav-justified">
+       <a class="btn btn-default " href="#/">HOME</a>
+        @if(employee.title=="ProjectManager"||employee.title=="SuperAdmin"){
+            <a class="btn btn-default" href="#/registeremployee">EMPLOYEE</a>
+        }
+
+        <a  class="btn btn-default" ng-click="btnshow=!btnshow" data-toggle="collapse" data-target="#collapse" href="">CHILDREN</a>
+        <div   id="collapse" class="btn-group-vertical nav-justified  collapsing collapse" ng-show="btnshow" >
+            <a style="background-color: #9dc769;color: white" class="btn btn-default active  "  href="#/ChildRegistration">Child</a>
+            <a style="background-color: #9dc769;color: white"  class="btn btn-default active  "  href="#/allParent">Parent</a>
+            <a style="background-color: #9dc769;color: white"  class="btn btn-default active  "  href="#/allneighbour">Neighbour</a>
+            <a style="background-color: #9dc769;color: white" class="btn btn-default active  "  href="">History</a>
+            <a style="background-color: #9dc769;color: white" class="btn btn-default active  "  href="">Drugs usage</a>
+
+        </div>
+        <a class="btn btn-default" ng-click="btnshow1=!btnshow1" data-toggle="collapse" data-target="#collapse1A" href="">EDUCATION</a>
+        <div   id="collapse1A" class="btn-group-vertical nav-justified  collapsing collapse" ng-show="btnshow1" >
+            <a style="background-color: #9dc769;color: white" class="btn btn-default active  "  href="">Class result</a>
+
+        </div>
+        <a class="btn btn-default" ng-click="btnshow2=!btnshow2" data-toggle="collapse" data-target="#collapse2B" href="">CLINIC</a>
+        <div   id="collapse2B" class="btn-group-vertical nav-justified  collapsing collapse" ng-show="btnshow2" >
+            <a style="background-color: #9dc769;color: white" class="btn btn-default active  "  href="#/listConsult">Consultation</a>
+            <a style="background-color: #9dc769;color: white"  class="btn btn-default active  "  href="">Dignostic</a>
+            <a style="background-color: #9dc769;color: white"  class="btn btn-default active  "  href="">Medecines</a>
+            <a style="background-color: #9dc769;color: white" class="btn btn-default active  "  href="">Transfer</a>
+
+        </div>
+      <a class="btn btn-default" href="/logout/">SIGN OUT</a>
+    </div>
+</div>

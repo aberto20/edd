@@ -1,0 +1,39 @@
+@(employee: Employee,message: String)
+
+@main(message) {
+
+    <div  >
+
+
+       @partials.headerIn(employee)
+        <br/>
+        <br/>
+        <br/>
+        <div ng-app="monitoringapploggedin"  id="wrapper">
+            <div id="sidebar-wrapper">
+            @partials.sidebar(employee)
+            </div>
+                <!-- Page Content -->
+            <div id="page-content-wrapper">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div ng-view ></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <!-- /#page-content-wrapper -->
+        </div>
+
+        @partials.footer()
+
+
+
+
+    </div>
+
+
+
+}
+

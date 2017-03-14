@@ -1,0 +1,127 @@
+<div ng-controller="parentctr">
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<div ng-show="parentpage" class="well">
+    <div ng-class="msg.class">{{msg.message}}</div>
+    <label>List of parent of child</label>
+    <br>
+
+        <table ng-table="tableParams" show-filter="true" class="table">
+            <thead>
+                <tr class="success">
+                    <td filter="{ firstName: 'text'}" sortable="'firstName'">Child names</td>
+                    <td filter="{ fatherNames: 'text'}" sortable="'fatherNames'">Father names</td>
+                    <td filter="{ fatherStatus: 'text'}" sortable="'fatherStatus'">Father status</td>
+                    <td filter="{ matherNames: 'text'}" sortable="'matherNames'">Mather names</td>
+                    <td filter="{ doneAt: 'text'}" sortable="'doneAt'" class="visible-lg visible-md">Done At</td>
+                    <td filter="{ doneAt: 'text'}" sortable="'doneAt'" class="visible-lg visible-md">Others</td>
+                    <td ></td>
+                </tr>
+            </thead>
+            <tbody>
+                @for(i <- ParentInfo.all()){
+                    <tr>
+                        <td>@i.child.firstName @i.child.lastName</td>
+                        <td>@i.fatherNames</td>
+                        <td>@i.fatherStatus</td>
+                        <td>@i.matherNames</td>
+                        <td class="visible-lg visible-md">@i.doneAt.format("dd/MM/yyyy")</td>
+                        <td class="visible-lg visible-md">@i.others</td>
+                        <td >
+                            <a class="btn btn-info" ng-click="parentById(@i.id)" href=""><span class="glyphicon glyphicon-edit"></span> </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+
+</div>
+    <div ng-show="editpage">
+
+        <div class = "col-lg-8">
+            <form  data-ng-submit="updateParent(parents)" >
+                <div class = "panel panel-default">
+                    <div class = "panel-heading">
+                        <button type="button" class="close" ng-click="parentList()">&times;</button>
+                        <h3 style = "padding:0px; margin:0px">Update your parent</h3>
+                        <div class="{{msg.class}}">{{msg.message}}</div>
+
+                    </div>
+
+                    <div style = "padding:15px">
+
+                        <label>
+                            Father name
+                        </label>
+
+                        <input required="required" ng-model = "parents.fatherNames" class = "form-control">
+                        <label>Father status</label>
+                        <select  class="form-control" ng-model="parents.fatherStatus">
+                            <option selected value="{{parents.fatherStatus}}">{{parents.fatherStatus}}</option>
+                            <option value="Alive">Alive</option>
+                            <option value="Dead">Dead</option>
+                            <option value="Unknown">Unknown</option>
+                            <option value="Guardian">Guardian</option>
+                            <option value="Exit">Exit</option>
+                        </select>
+                        <label>
+                            Mather name
+                        </label>
+
+                        <input required="required" ng-model = "parents.matherNames" class = "form-control">
+
+                        <label>
+                            Mather status
+                        </label>
+                        <select  class="form-control" ng-model="parents.matherStatus">
+                            <option selected value="{{parents.matherStatus}}">{{parents.matherStatus}}</option>
+                            <option value="Alive">Alive</option>
+                            <option value="Dead">Dead</option>
+                            <option value="Unknown">Unknown</option>
+                            <option value="Guardian">Guardian</option>
+                            <option value="Exit">Exit</option>
+                        </select>
+                        <hr>
+
+                        <label>
+                            Nearest parent
+                        </label>
+
+                        <input  ng-model="parents.nearestParent" class="form-control">
+                        <label>
+                            Others
+                        </label>
+
+                        <input  ng-model="parents.others" class="form-control">
+                        <hr>
+
+                        <div class = "pull-right">
+                            <input class="btn btn-success pull-right"  ng-disabled="btnSubmit " value="Submit" type="submit">
+                            <input class="btn btn-default pull-right" ng-click="parentList()" value="Cancel" type="button">
+
+
+                        </div>
+                        <br/>
+
+
+
+
+
+                    </div>
+
+                </div>
+
+                <Br><Br>
+
+
+            </form>
+        </div>
+    </div>
+
+</div>
